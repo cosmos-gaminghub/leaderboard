@@ -22512,7 +22512,7 @@ mark {
  *    Google+ [ https://plus.google.com/+Icons8 ]
  *    GitHub [ https://github.com/icons8 ]
  */
-@font-face {
+/* @font-face {
   font-family: "LineAwesome";
   src: url("../fonts/line-awesome.eot?v=1.1.");
   src: url("../fonts/line-awesome.eot??v=1.1.#iefix") format("embedded-opentype"), url("../fonts/line-awesome.woff2?v=1.1.") format("woff2"), url("../fonts/line-awesome.woff?v=1.1.") format("woff"), url("../fonts/line-awesome.ttf?v=1.1.") format("truetype"), url("../fonts/line-awesome.svg?v=1.1.#fa") format("svg");
@@ -22524,7 +22524,7 @@ mark {
     font-family: "LineAwesome";
     src: url("../fonts/line-awesome.svg?v=1.1.#fa") format("svg");
   }
-}
+} */
 /* Thanks to http://fontawesome.io @fontawesome and @davegandy */
 .la {
   display: inline-block;
@@ -25324,13 +25324,13 @@ mark {
   content: "";
 }
 
-@font-face {
+/* @font-face {
   font-family: "Socicon";
   src: url("../fonts/Socicon.eot?87visu");
   src: url("../fonts/Socicon.eot?87visu#iefix") format("embedded-opentype"), url("../fonts/Socicon.woff2?87visu") format("woff2"), url("../fonts/Socicon.ttf?87visu") format("truetype"), url("../fonts/Socicon.woff?87visu") format("woff"), url("../fonts/Socicon.svg?87visu#Socicon") format("svg");
   font-weight: normal;
   font-style: normal;
-}
+} */
 [class^=socicon-], [class*=" socicon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "Socicon" !important;
@@ -32758,7 +32758,7 @@ input[type=range]:focus {
     : Custom - Range Slider css :
 -------------------------------------
 */
-.irs-line-mid {
+/* .irs-line-mid {
   background: url(../plugins/ion-rangeSlider/sprite-skin-flat.png) repeat-x;
 }
 
@@ -32966,7 +32966,7 @@ input[type=range]:focus {
 
 .irs-grid-text {
   color: #8A98AC;
-}
+} */
 
 /* 
 -------------------------------
@@ -33516,7 +33516,7 @@ input[type=range]:focus {
     : Custom - Security Pages css :
 ---------------------------------------
 */
-.authenticate-bg {
+/* .authenticate-bg {
   background: url(../images/authentication/authentication-bg.svg);
   background-size: cover;
   background-position: center;
@@ -33645,7 +33645,7 @@ input[type=range]:focus {
   .auth-box .auth-box-right .forgot-psw {
     text-align: left;
   }
-}
+} */
 /* 
 -----------------------------------
     : Custom - Summernote css :
