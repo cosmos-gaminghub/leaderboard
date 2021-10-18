@@ -21,8 +21,8 @@
                             :to="{ name: 'validator.detail', params: { id: item.id }}"
                           >{{ item.moniker }} 
                         </router-link></td>
-                        <td>{{ item.address }}</td>
-                        <td>{{ item.totalPoints | getPoints }}</td>
+                        <td><a :href="item.address | getAddressLink">{{ item.address }}</a></td>
+                        <td><a :href="item.address | getValidatorLink">{{ item.totalPoints | getPoints }}</a></td>
                         <td>{{ item.totalTxs | getTxCount  }}</td>
                       </tr>
                       <tr v-if="data.length == 0" style="text-align: center">
@@ -51,6 +51,12 @@ export default {
       },
       getTxCount(value) {
         return value == null ? 0 : value
+      },
+      getAddressLink(value){
+        return `https://neuron.game-explorer.io/account/${value}`
+      },
+      getValidatorLink(value) {
+        return `https://neuron.game-explorer.io/validators/${value}`
       }
     },
     data () {
