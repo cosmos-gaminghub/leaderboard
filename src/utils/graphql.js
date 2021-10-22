@@ -5,29 +5,33 @@ export const GET_VALIDATORS = gql`
     fetchValidators {
         id,
         moniker,
-        operator_address,
+        operatorAddress,
         address,
         totalPoints,
         totalTxs,
+        totalMissedBlocks,
+        totalSlashedCounts,
     }
   }
 `
 
 export const GET_VALIDATOR_DETAIL = gql`
-  query GET_VALIDATOR_DETAIL ($validatorID: Int!) {
+  query GET_VALIDATOR_DETAIL ($validatorID: Int) {
     fetchValidator(validatorID: $validatorID) {
         id,
         moniker,
-        operator_address,
+        operatorAddress,
         address,
         totalPoints,
         totalTxs,
+        totalMissedBlocks,
+        totalSlashedCounts,
     }
   }
 `
 
 export const GET_MISSION_RESULT = gql`
-  query GET_MISSION_RESULT ($validatorID: Int!) {
+  query GET_MISSION_RESULT ($validatorID: Int) {
     fetchMissionResult(validatorID: $validatorID) {
         id,
         name,

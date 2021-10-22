@@ -24,9 +24,11 @@
                         <td><a :href="item.address | getAddressLink">{{ item.address }}</a></td>
                         <td><a :href="item.address | getValidatorLink">{{ item.totalPoints | getPoints }}</a></td>
                         <td>{{ item.totalTxs | getTxCount  }}</td>
+                        <td>{{ item.totalMissedBlocks | getTxCount  }}</td>
+                        <td>{{ item.totalSlashedCounts | getTxCount  }}</td>
                       </tr>
                       <tr v-if="data.length == 0" style="text-align: center">
-                          <td colspan="4">No data</td>
+                          <td colspan="6">No data</td>
                       </tr>
                     </tbody>
                   </table>
@@ -81,7 +83,17 @@ export default {
                     key: "total_txs",
                     name: "Tx Count",
                     sortable: true,
-                }
+                },
+                {
+                    key: "total_missed_block",
+                    name: "Total Missed Block",
+                    sortable: true,
+                },
+                {
+                    key: "total_slashed_count",
+                    name: "Total Slashed Counts",
+                    sortable: true,
+                },
             ],
             data: [],
             sort_type: "desc",
