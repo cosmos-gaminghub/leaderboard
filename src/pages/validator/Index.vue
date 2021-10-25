@@ -20,7 +20,7 @@
                           <router-link
                             :to="{ name: 'validator.detail', params: { id: item.id }}"
                           >{{ item.moniker }} 
-                        </router-link> <a :href="item.operatorAddress | getValidatorLink" target="_blank"><i class="fa fa-arrow-circle-right" style="color:gray" aria-hidden="true"></i></a></td>
+                        </router-link> <a :href="item.operatorAddress | getValidatorLink" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:gray; margin-left: 5px;"></i></a></td>
                         <td><a :href="item.address | getAddressLink">{{ item.address }}</a></td>
                         <td>{{ item.totalPoints | getPoints }}</td>
                         <td>{{ item.totalTxs | getTxCount  }}</td>
