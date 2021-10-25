@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { GET_MISSION_RESULT, GET_VALIDATOR_DETAIL } from '@/utils/graphql'
+import { GET_MISSION_RESULT, GET_VALIDATORS } from '@/utils/graphql'
 import { getErrorMessage, getData } from '@/utils/api_response'
 export default {
     filters: {
@@ -74,10 +74,11 @@ export default {
                 }
             ],
             data: [],
+            validators: [],
             sort_type: "",
             sort_field: "",
             module_name: "fetchMissionResult",
-            module_validator_detail: "fetchValidator",
+            module_validator: "fetchValidators",
             id: this.$route.params.id
         }
     },
@@ -87,8 +88,20 @@ export default {
         },
     },
     mounted () {
-        this.getValidatorDetail()
+        this.getValidators()
         this.getDataMission()
+    },
+    watch: {
+        validators: {
+            handler: function () {
+                const validator = this.validators.find((x) => x.id == this.id)
+                if(validator == undefined){
+                    this.$toast.error('Not found validator');
+                    this.$router.go(-1)
+                }
+                this.setLeftBreadScrumbar(validator.moniker)
+            },
+        }
     },
     methods: {
         getClassSort(item){
@@ -128,15 +141,11 @@ export default {
                 this.$toast.error(message);
             })
         },
-        getValidatorDetail() {
+        getValidators() {
             this.$apollo.query({
-                query: GET_VALIDATOR_DETAIL,
-                variables: { 
-                    validatorID: parseInt(this.id),
-                }
+                query: GET_VALIDATORS,
             }).then((response) => {
-                const validator = getData(response, this.module_validator_detail)
-                this.setLeftBreadScrumbar(validator.moniker)
+                this.validators = getData(response, this.module_validator)
             }).catch((error) => {
                 let message = getErrorMessage(error.graphQLErrors)
                 this.$toast.error(message);

@@ -20,9 +20,9 @@
                           <router-link
                             :to="{ name: 'validator.detail', params: { id: item.id }}"
                           >{{ item.moniker }} 
-                        </router-link></td>
+                        </router-link> <a :href="item.operatorAddress | getValidatorLink" target="_blank"><i class="fa fa-arrow-circle-right" style="color:gray" aria-hidden="true"></i></a></td>
                         <td><a :href="item.address | getAddressLink">{{ item.address }}</a></td>
-                        <td><a :href="item.address | getValidatorLink">{{ item.totalPoints | getPoints }}</a></td>
+                        <td>{{ item.totalPoints | getPoints }}</td>
                         <td>{{ item.totalTxs | getTxCount  }}</td>
                         <td>{{ item.totalMissedBlocks | getTxCount  }}</td>
                         <td>{{ item.totalSlashedCounts | getTxCount  }}</td>
@@ -80,17 +80,17 @@ export default {
                     sortable: true,
                 },
                 {
-                    key: "total_txs",
+                    key: "totalTxs",
                     name: "Tx Count",
                     sortable: true,
                 },
                 {
-                    key: "total_missed_block",
+                    key: "totalMissedBlocks",
                     name: "Total Missed Block",
                     sortable: true,
                 },
                 {
-                    key: "total_slashed_count",
+                    key: "totalSlashedCounts",
                     name: "Total Slashed Counts",
                     sortable: true,
                 },
@@ -121,19 +121,22 @@ export default {
                 return false
             }
 
-            if(item.key == this.sort_field){
+            const sortField = item.key
+            if(sortField == this.sort_field){
                 this.sort_type = this.sort_type == 'desc' ? 'asc' : 'desc'
-                return true
+            } else {
+                this.sort_type = 'desc'
             }
-            this.sort_field = item.key
-            this.sort_type = 'desc'
-            this.data.sort(function (a, b) {
-              if(this.sort_type == 'asc'){ 
-                return a[this.sort_field] - b[this.sort_field];
-              } else { 
-                return b[this.sort_field] - a[this.sort_field];
-              }
-            });
+            this.sort_field = sortField
+            if(this.sort_type == 'asc'){ 
+              this.data.sort(function (a, b) {
+                  return a[sortField] - b[sortField];
+              });
+            } else {
+              this.data.sort(function (a, b) {
+                  return b[sortField] - a[sortField];
+              });
+            }
             return true
         },
         getData () {
