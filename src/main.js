@@ -21,7 +21,7 @@ Vue.use(Bus)
 
 const httpLink = createHttpLink({
   // You should use an absolute URL here
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://neuron-dev.gamenet.one/graphql',
 })
 
 const cache = new InMemoryCache()

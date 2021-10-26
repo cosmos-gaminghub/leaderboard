@@ -7,22 +7,6 @@ export const GET_VALIDATORS = gql`
         moniker,
         operatorAddress,
         address,
-        totalPoints,
-        totalTxs,
-        totalMissedBlocks,
-        totalSlashedCounts,
-    }
-  }
-`
-
-export const GET_VALIDATOR_DETAIL = gql`
-  query GET_VALIDATOR_DETAIL ($validatorID: Int) {
-    fetchValidator(validatorID: $validatorID) {
-        id,
-        moniker,
-        operatorAddress,
-        address,
-        totalPoints,
         totalTxs,
         totalMissedBlocks,
         totalSlashedCounts,
@@ -38,6 +22,14 @@ export const GET_MISSION_RESULT = gql`
         detail,
         point,
         isCompleted
+    }
+  }
+`
+
+export const GET_TOTAL_POINT = gql`
+  query GET_MISSION_RESULT ($validatorID: Int) {
+    fetchMyPoint(validatorID: $validatorID) {
+      totalPoints
     }
   }
 `

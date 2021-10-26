@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { GET_MISSION_RESULT, GET_VALIDATORS } from '@/utils/graphql'
+import { GET_MISSION_RESULT, GET_VALIDATORS, GET_TOTAL_POINT } from '@/utils/graphql'
 import { getErrorMessage, getData } from '@/utils/api_response'
 export default {
     filters: {
@@ -46,7 +46,7 @@ export default {
         return value == null ? 0 : value
       },
       getCompleText(value) {
-          return value == false ? 'Completed' : 'Not completed'
+          return value == false ? 'Not completed' : 'Completed'
       }
     },
     data () {
@@ -79,17 +79,14 @@ export default {
             sort_field: "",
             module_name: "fetchMissionResult",
             module_validator: "fetchValidators",
+            module_total_point: "fetchMyPoint",
             id: this.$route.params.id
         }
-    },
-    computed: {
-        getTotalPoint(){
-            return this.data.reduce((a, b) => a + (b.point || 0), 0);
-        },
     },
     mounted () {
         this.getValidators()
         this.getDataMission()
+        this.getTotalPoint()
     },
     watch: {
         validators: {
@@ -126,7 +123,6 @@ export default {
             this.sort_type = 'desc'
             return true
         },
-        
         getDataMission () {
             this.$apollo.query({
                 query: GET_MISSION_RESULT,
@@ -135,7 +131,6 @@ export default {
                 }
             }).then((response) => {
                 this.data = getData(response, this.module_name)
-                this.setRightBreadScrumbar(`Total ${this.getTotalPoint}Pt`)
             }).catch((error) => {
                 let message = getErrorMessage(error.graphQLErrors)
                 this.$toast.error(message);
@@ -146,6 +141,18 @@ export default {
                 query: GET_VALIDATORS,
             }).then((response) => {
                 this.validators = getData(response, this.module_validator)
+            }).catch((error) => {
+                let message = getErrorMessage(error.graphQLErrors)
+                this.$toast.error(message);
+            })
+        },
+        getTotalPoint() {
+            this.$apollo.query({
+                query: GET_TOTAL_POINT,
+            }).then((response) => {
+                let { totalPoints } = getData(response, this.module_total_point)
+                totalPoints = totalPoints == undefined ? 0 : totalPoints
+                this.setRightBreadScrumbar(`Total ${totalPoints}Pt`)
             }).catch((error) => {
                 let message = getErrorMessage(error.graphQLErrors)
                 this.$toast.error(message);

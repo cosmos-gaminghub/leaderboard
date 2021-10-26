@@ -22,7 +22,6 @@
                           >{{ item.moniker }} 
                         </router-link> <a :href="item.operatorAddress | getValidatorLink" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:gray; margin-left: 5px;"></i></a></td>
                         <td><a :href="item.address | getAddressLink">{{ item.address }}</a></td>
-                        <td>{{ item.totalPoints | getPoints }}</td>
                         <td>{{ item.totalTxs | getTxCount  }}</td>
                         <td>{{ item.totalMissedBlocks | getTxCount  }}</td>
                         <td>{{ item.totalSlashedCounts | getTxCount  }}</td>
@@ -48,9 +47,6 @@ import { GET_VALIDATORS } from '@/utils/graphql'
 import { getErrorMessage, getData } from '@/utils/api_response'
 export default {
     filters: {
-      getPoints(value) {
-        return value == null ? 0 : value
-      },
       getTxCount(value) {
         return value == null ? 0 : value
       },
@@ -73,11 +69,6 @@ export default {
                     key: "address",
                     name: "Address",
                     sortable: false,
-                },
-                {
-                    key: "point",
-                    name: "Points",
-                    sortable: true,
                 },
                 {
                     key: "totalTxs",
