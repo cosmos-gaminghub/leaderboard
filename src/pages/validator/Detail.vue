@@ -149,6 +149,9 @@ export default {
         getTotalPoint() {
             this.$apollo.query({
                 query: GET_TOTAL_POINT,
+                variables: { 
+                    validatorID: parseInt(this.id),
+                }
             }).then((response) => {
                 let { totalPoints } = getData(response, this.module_total_point)
                 totalPoints = totalPoints == undefined ? 0 : totalPoints
