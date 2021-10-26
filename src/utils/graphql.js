@@ -27,7 +27,7 @@ export const GET_MISSION_RESULT = gql`
 `
 
 export const GET_TOTAL_POINT = gql`
-  query GET_MISSION_RESULT ($validatorID: Int) {
+  query GET_MY_POINT ($validatorID: Int) {
     fetchMyPoint(validatorID: $validatorID) {
       totalPoints
     }

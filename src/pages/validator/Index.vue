@@ -22,9 +22,9 @@
                           >{{ item.moniker }} 
                         </router-link> <a :href="item.operatorAddress | getValidatorLink" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:gray; margin-left: 5px;"></i></a></td>
                         <td><a :href="item.address | getAddressLink">{{ item.address }}</a></td>
-                        <td>{{ item.totalTxs | getTxCount  }}</td>
-                        <td>{{ item.totalMissedBlocks | getTxCount  }}</td>
-                        <td>{{ item.totalSlashedCounts | getTxCount  }}</td>
+                        <td>{{ item.totalTxs }}</td>
+                        <td>{{ item.totalMissedBlocks }}</td>
+                        <td>{{ item.totalSlashedCounts }}</td>
                       </tr>
                       <tr v-if="data.length == 0" style="text-align: center">
                           <td colspan="6">No data</td>
@@ -47,9 +47,6 @@ import { GET_VALIDATORS } from '@/utils/graphql'
 import { getErrorMessage, getData } from '@/utils/api_response'
 export default {
     filters: {
-      getTxCount(value) {
-        return value == null ? 0 : value
-      },
       getAddressLink(value){
         return `https://neuron.game-explorer.io/account/${value}`
       },
@@ -88,14 +85,14 @@ export default {
             ],
             data: [],
             sort_type: "desc",
-            sort_field: "moniker",
+            sort_field: "totalTxs",
             module_name: "fetchValidators"
         }
     },
     mounted () {
-        this.getData()
         this.setLeftBreadScrumbar('Leaderboard')
         this.setRightBreadScrumbar('')
+        this.getData()
     },
     methods: {
         getClassSort(item){
@@ -113,12 +110,30 @@ export default {
             }
 
             const sortField = item.key
+            let sortType = 'desc'
             if(sortField == this.sort_field){
-                this.sort_type = this.sort_type == 'desc' ? 'asc' : 'desc'
-            } else {
-                this.sort_type = 'desc'
+                sortType = this.sort_type == 'desc' ? 'asc' : 'desc'
             }
-            this.sort_field = sortField
+
+            this.setSortType(sortType)
+            this.setSortField(sortField)
+            this.sort()
+            return true
+        },
+        getData () {
+            this.$apollo.query({
+                query: GET_VALIDATORS,
+            }).then((response) => {
+                this.data = getData(response, this.module_name)
+                this.formatData()
+                this.sort()
+            }).catch((error) => {
+                let message = getErrorMessage(error.graphQLErrors)
+                this.$toast.error(message);
+            })
+        },
+        sort () {
+            const sortField = this.sort_field
             if(this.sort_type == 'asc'){ 
               this.data.sort(function (a, b) {
                   return a[sortField] - b[sortField];
@@ -128,24 +143,31 @@ export default {
                   return b[sortField] - a[sortField];
               });
             }
-            return true
         },
-        getData () {
-            this.$apollo.query({
-                query: GET_VALIDATORS,
-            }).then((response) => {
-                this.data = getData(response, this.module_name)
-            }).catch((error) => {
-                console.log(error.graphQLErrors)
-                let message = getErrorMessage(error.graphQLErrors)
-                this.$toast.error(message);
-            })
+        formatData () {
+          this.data.forEach((elment, index) => {
+              if(elment.totalTxs == null){
+                  this.data[index].totalTxs = 0
+              }
+              if(elment.totalMissedBlocks == null){
+                  this.data[index].totalMissedBlocks = 0
+              }
+              if(elment.totalSlashedCounts == null){
+                  this.data[index].totalSlashedCounts = 0
+              }
+          })
         },
         setLeftBreadScrumbar (value) {
             this.$bus.emit('setLeftBreadScrumbar', value)
         },
         setRightBreadScrumbar (value) {
             this.$bus.emit('setRightBreadScrumbar', value)
+        },
+        setSortField(field){
+            this.sort_field = field
+        },
+        setSortType(type){
+            this.sort_type = type
         }
 
     }
